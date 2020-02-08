@@ -4,6 +4,12 @@ class PhotosController < ApplicationController
 
     end
 
+    def show
+
+        @photo = Photo.find(params[:id])
+
+    end
+
     def new
 
         @photo = Photo.new
@@ -12,8 +18,7 @@ class PhotosController < ApplicationController
 
     def create
 
-        @photo = Photo.find(params[:id])
-        @photo.create(photo_params)
+        @photo = Photo.create(photo_params)
 
         redirect_to @photo
 
@@ -22,7 +27,7 @@ class PhotosController < ApplicationController
     private
     def photo_params
 
-        params.require(:user).permit(:shooting_date, :content, :photographer)
+        params.require(:photo).permit(:shooting_date, :content, :photographer, :photo)
 
     end
 

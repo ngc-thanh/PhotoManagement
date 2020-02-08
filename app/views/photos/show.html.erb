@@ -1,0 +1,9 @@
+<%= image_tag @photo.photo.variant(resize: "200x200^", quality: 75) %>
+<p>Shooting date: <%= @photo.shooting_date %></p>
+<p>Photographer: <%= @photo.photographer %></p>
+<p>Content: <%= @photo.content %></p>
+<p>File name: <%= @photo.photo.filename %></p>
+<p>File type: <%= @photo.photo.content_type %></p>
+<p>Size: <%= (@photo.photo.byte_size)/1000000.to_f %> MB</p>
+<p>Uploaded: <%= @photo.photo.created_at %></p>
+

@@ -1,0 +1,10 @@
+<%= form_with model: @photo, class: "nifty_form" do |f| %>
+  <div><%= f.label :shooting_date, "Date of the shooting" %>
+  <%= f.text_field :shooting_date %></div>
+  <div><%= f.label :content, "What does the photo show?" %>
+  <%= f.text_field :content %></div>
+  <div><%= f.label :shooting_date, "Who shot the photo?" %>
+  <%= f.text_field :photographer %></div>
+  <div><%= f.file_field :photo %></div>
+  <div><%= f.submit "Create" %></div>
+<% end %>
