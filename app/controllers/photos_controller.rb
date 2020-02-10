@@ -24,10 +24,16 @@ class PhotosController < ApplicationController
 
     end
 
+    def datepicker_input form, field
+        content_tag :td, :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
+          form.text_field field, class: 'form-control', placeholder: 'YYYY-MM-DD'
+        end
+    end
+
     private
     def photo_params
 
-        params.require(:photo).permit(:shooting_date, :content, :photographer, :photo, :permission)
+        params.require(:photo).permit(:shooting_date, :content, :photographer, :permission, photos: [])
 
     end
 

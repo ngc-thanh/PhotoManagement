@@ -1,13 +1,14 @@
 <%= form_with model: @photo, class: "nifty_form" do |f| %>
   <div><%= f.label :shooting_date, "Date of the shooting" %>
-  <%= f.text_field :shooting_date %></div>
+  <%= datepicker_input form, :shooting_date%>
+  <%= f.text_field :shooting_date, required: true %></div>
   <div><%= f.label :content, "What does the photo show?" %>
   <%= f.select(:content, options_for_select([['School', 'School'], ['Kindergarden', 'Kindergarden'], ['Hospital', 'Hospital']])) %></div>
-  <div><%= f.label :shooting_date, "Who shot the photo?" %>
-  <%= f.text_field :photographer %></div>
-  <div><%= f.label :photo, "Select a photo" %>
-  <div><%= f.file_field :photo %></div>
+  <div><%= f.label :photographer, "Who shot the photo?" %>
+  <%= f.text_field :photographer, required: true %></div>
+  <div><%= f.label :photos, "Select your photos" %>
+  <div><%= f.file_field :photos, multiple: true, required: true %></div>
   <div><%= f.label :permission, "Upload the permission" %>
-  <div><%= f.file_field :permission %></div>
+  <div><%= f.file_field :permission, required: true %></div>
   <div><%= f.submit "Create" %></div>
 <% end %>
