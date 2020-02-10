@@ -2,9 +2,12 @@
   <div><%= f.label :shooting_date, "Date of the shooting" %>
   <%= f.text_field :shooting_date %></div>
   <div><%= f.label :content, "What does the photo show?" %>
-  <%= f.text_field :content %></div>
+  <%= f.select(:content, options_for_select([['School', 'School'], ['Kindergarden', 'Kindergarden'], ['Hospital', 'Hospital']])) %></div>
   <div><%= f.label :shooting_date, "Who shot the photo?" %>
   <%= f.text_field :photographer %></div>
+  <div><%= f.label :photo, "Select a photo" %>
   <div><%= f.file_field :photo %></div>
+  <div><%= f.label :permission, "Upload the permission" %>
+  <div><%= f.file_field :permission %></div>
   <div><%= f.submit "Create" %></div>
 <% end %>
