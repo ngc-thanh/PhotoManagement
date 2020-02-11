@@ -1,7 +1,6 @@
 class PhotosController < ApplicationController
 
     before_action :set_dropdown, only: [:show, :new] 
-    before_action :set_photo_show, only: [:download_image]
     before_action :set_active_storage_host
 
     def index
@@ -9,12 +8,13 @@ class PhotosController < ApplicationController
     end
 
     def show
-        @photo = Photo.find(params[:id])
-        
+            @photo = Photo.find(params[:id])
     end
 
     def download_image
-        redirect_to @photo_show.service_url
+        @photo = Photo.find(params[:photo_id]).photos.first
+        redirect_to @photo.service_url
+        Photo.find(params[:photo_id]).update(download_date: Date.current, delete_date: (Date.current + 1.year))
     end
 
     def new
@@ -22,11 +22,8 @@ class PhotosController < ApplicationController
     end
 
     def create
-
-        @photo = Photo.create(photo_params)
-
+        @photo = Photo.create(photo_params).update(download_date: Date.current, delete_date: (Date.current + 1.year))
         redirect_to @photo
-
     end
 
     private
@@ -53,10 +50,4 @@ class PhotosController < ApplicationController
     def set_active_storage_host
         ActiveStorage::Current.host = request.base_url
     end  
-    
-    def set_photo_show
-        @photo_show = Photo.find(params[:photo_id]).photos.first
-    end
-
-
 end
