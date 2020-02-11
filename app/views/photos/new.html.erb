@@ -7,7 +7,7 @@
   <%= f.select(:photographer, options_for_select(@photographers.uniq)) %></div>
   <div><%= f.label :photos, "Select your photos" %>
   <div><%= f.file_field :photos, multiple: true, required: true %></div>
-  <div><%= f.label :permission, "Upload the permission" %>
-  <div><%= f.file_field :permission, required: true %></div>
+  <div><%= f.label :permissions, "Upload the permissions" %>
+  <div><%= f.file_field :permissions, multiple: true, required: true %></div>
   <div><%= f.submit "Create" %></div>
 <% end %>

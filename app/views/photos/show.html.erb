@@ -1,6 +1,11 @@
 <% @photo.photos.each do |image| %>
     <div><%= image_tag image.variant(resize: "200x200^", quality: 75).processed %></div>
-    <p><%= link_to 'download permission', rails_blob_path(@photo.permission, only_path: true) %></p>
+    <div><%= link_to 'Download Image', photo_download_image_path(@photo) %></div>
+
+        <% @photo.permissions.each do |permission| %>
+            <p><%= link_to 'download permissions', rails_blob_path(permission, only_path: true) %></p>
+        <% end %>
+
     <p>Shooting date: <%= @photo.shooting_date %></p>
     <p>Photographer: <%= @photo.photographer %></p>
     <p>Content: <%= @photo.content %></p>
@@ -8,5 +13,5 @@
     <p>File type: <%= image.content_type %></p>
     <p>Size: <%= (image.byte_size)/1000000.to_f %> MB</p>
     <p>Uploaded: <%= @photo.created_at %></p>
-
 <% end%>
+
