@@ -5,8 +5,11 @@ class Photo < ApplicationRecord
     has_many :taggings
     has_many :tags, through: :taggings
 
-    def delete_date
-        @delete_date
+    def self.search(search, tag)
+        @photos = Photo.all
+        @photos = @photos.where("photographer LIKE ? ", "%#{search}%") if search
+        @photos = @photos.tagged_with(tag) if tag
+        @photos.includes(:tags)
     end
 
     def self.tagged_with(name)
@@ -26,5 +29,7 @@ class Photo < ApplicationRecord
           Tag.where(name: n.strip).first_or_create!
         end
     end
+
+
     
 end

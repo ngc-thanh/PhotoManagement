@@ -4,7 +4,7 @@
   <div><%= f.label :content, "What does the photo show?" %>
   <%= f.select(:content, options_for_select(@contents.uniq)) %></div>
   <div><%= f.label :tag, "Select tags for the images" %>
-  <div><%= collection_select(:photo, :tag_ids, Tag.all.order(:name), :id, :name, prompt: true) %></div>
+  <div><%= collection_select(:photo, :tag_ids, Tag.all.order(:name), :id, :name, {prompt: true}, {multiple: true}) %></div>
   <div><%= f.label :photographer, "Who shot the photo?" %>
   <%= f.select(:photographer, options_for_select(@photographers.uniq)) %></div>
   <div><%= f.label :photos, "Select your photos" %>

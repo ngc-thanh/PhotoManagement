@@ -4,15 +4,11 @@ class PhotosController < ApplicationController
     before_action :set_active_storage_host
 
     def index
-
-        @photos = Photo.all
-
-        params[:tag] ? @photos = Photo.tagged_with(params[:tag]) : @photos = Photo.all
-
+        @photos = Photo.search(params[:search], params[:tag])
     end
     
     def show
-            @photo = Photo.find(params[:id])
+        @photo = Photo.find(params[:id])
     end
 
     def download_image
@@ -26,7 +22,8 @@ class PhotosController < ApplicationController
     end
 
     def create
-        @photo = Photo.create(photo_params).update(download_date: Date.current, delete_date: (Date.current + 1.year))
+        @photo = Photo.create(photo_params.merge({download_date: Date.current, delete_date: (Date.current + 1.year)}))
+        @photo.update(download_date: Date.current, delete_date: (Date.current + 1.year))
         redirect_to @photo
     end
 
@@ -47,7 +44,7 @@ class PhotosController < ApplicationController
 
     def photo_params
 
-        params.require(:photo).permit(:shooting_date, :content, :photographer, :tag_list, :tag, { tag_ids: [] }, :tag_ids, permissions: [], photos: [])
+        params.require(:photo).permit(:shooting_date, :content, :photographer, :search, :tag_list, :tag, { tag_ids: [] }, :tag_ids, permissions: [], photos: [])
 
     end
 
