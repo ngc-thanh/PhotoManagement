@@ -1,16 +1,36 @@
-<%= form_with model: @photo, class: "nifty_form" do |f| %>
-  <div><%= f.label :shooting_date, "Date of the shooting" %>
-  <%= f.date_field :shooting_date, required: true %>
-  <div><%= f.label :content, "What does the photo show?" %>
-  <%= f.select(:content, options_for_select(@contents.uniq)) %></div>
-  <div><%= f.label :tag, "Select tags for the images" %>
-  <div><%= collection_select(:photo, :tag_ids, Tag.all.order(:name), :id, :name, {prompt: true}, {multiple: true}) %></div>
-  <div><%= f.label :photographer, "Who shot the photo?" %>
-  <%= f.select(:photographer, options_for_select(@photographers.uniq)) %></div>
-  <div><%= f.label :photos, "Select your photos" %>
-  <div><%= f.file_field :photos, multiple: true, required: true %></div>
-  <div><%= f.label :permissions, "Upload the permissions" %>
-  <div><%= f.file_field :permissions, multiple: true, required: true %></div>
-  <div><%= f.submit "Create" %></div>
-<% end %>
+<div class="container"> 
+  <div class="row">
+    <div class="col-4 col-5">
+      <%= form_with model: @photo, class: "nifty_form" do |f| %>
+        <div class="form-group row">
+            <%= f.label :shooting_date, "Date of the shooting" %>
+            <%= f.date_field :shooting_date, required: true, class: "form-control" %>
+        </div>
 
+        <div class="form-group row">
+            <%= f.label :tag, "Select tags for the images" %>
+            <%= collection_select(:photo, :tag_ids, Tag.all.order(:name), :id, :name, {prompt: true, multiple: true}, {class: "form-control"}) %>
+        </div>
+        
+        <div class="form-group">
+            <%= f.label :photographer, "Who shot the photo?" %>
+            <%= f.select(:photographer, options_for_select(@photographers.uniq),{}, {class: "form-control"}) %>
+        </div>
+
+        <div class="form-group row">
+            <%= f.label :photos, "Select your photos" %>
+            <%= f.file_field :photos, multiple: true, required: true, class: "form-control-file" %>
+        </div>
+
+        <div>
+            <%= f.label :permissions, "Upload the permissions" %>
+            <%= f.file_field :permissions, multiple: true, required: true, class: "form-control-file" %>
+        </div>
+
+        <div>
+            <%= f.submit "Create", class: "btn btn-primary" %> 
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
