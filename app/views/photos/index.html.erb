@@ -1,1 +1,8 @@
-Hallo!
+<h1>Photos</h1>
+<div class = "col-md-8 offset-2">
+    <% @photos.each do |image| %>
+
+        <p>Shooting date: <%= image.shooting_date %></p>
+        <p><small>Tags: <%= raw image.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ') %></small></p>
+    <% end %>
+</div>
