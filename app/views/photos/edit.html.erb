@@ -1,9 +1,7 @@
-
-
 <div class="container"> 
   <div class="row">
     <div class="col-4 col-5">
-    <h1> Upload new photos </h1>
+    <h1> Update photos </h1>
       <%= form_with model: @photo, class: "nifty_form" do |f| %>
         <div class="form-group row">
             <%= f.label :shooting_date, "Date of the shooting", class:'control-label' %>
@@ -12,17 +10,17 @@
 
         <div class="form-group row">
             <%= f.label :tag, "Select tags for the images", class:'control-label' %>
-            <%= collection_select(:photo, :tag_ids, Tag.all.order(:name), :id, :name, {multiple: true}, {multiple: true, class: "form-control"}) %>
+            <%= collection_select(:photo, :tag_ids, Tag.all.order(:name), :id, :name, {}, {multiple: true, class: "form-control"}) %>
         </div>
         
         <div class="form-group row">
             <%= f.label :photographer, "Who shot the photo?", class:'control-label' %>
-            <%= f.select(:photographer, options_for_select(@photographers.uniq),{}, {class: "form-control"}) %>
-        </div>
+             <%= f.select(:photographer, options_for_select(@photographers.uniq),{}, {class: "form-control"}) %>
+          </div>
 
         <div class="form-group row">
             <%= f.label :photos, "Select your photos", class:'control-label' %>
-            <%= f.file_field :photos, multiple: true, required: true, class: "form-control-file" %>
+            <%= f.file_field :photos, multiple: true, required: true, class: "form-control-file", accept: "heghfhg" %>
         </div>
 
         <div class="form-group row">
@@ -31,7 +29,7 @@
         </div>
 
         <div class="form-group row">
-            <%= f.submit "Create", class: "btn btn-primary" %> 
+            <%= f.submit "Update", class: "btn btn-primary" %> 
         </div>
       </div>
     <% end %>

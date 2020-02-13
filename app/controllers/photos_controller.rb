@@ -1,6 +1,6 @@
 class PhotosController < ApplicationController
 
-    before_action :set_dropdown, only: [:show, :new] 
+    before_action :set_dropdown, only: [:show, :edit, :new] 
     before_action :set_active_storage_host
 
     def index
@@ -9,6 +9,23 @@ class PhotosController < ApplicationController
     
     def show
         @photo = Photo.find(params[:id])
+    end
+
+    def edit
+        @photo = Photo.find(params[:id])
+    end
+
+    def update
+        @photo = Photo.find(params[:id])
+        @photo.update(photo_params)
+
+        redirect_to @photo
+    end
+
+    def destroy
+        Photo.find(params[:id]).destroy
+
+        redirect_to "/"
     end
 
     def download_image

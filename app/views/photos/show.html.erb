@@ -1,23 +1,38 @@
-<% if Date.current < @photo.download_date + 365.days %>
+<% if @photo.download_date == nil || Date.current < @photo.download_date + 365.days %>
 
-    <% @photo.photos.each do |image| %>
-        <div><%= image_tag image.variant(resize: "200x200^", quality: 75).processed %></div>
-        <div><%= button_to 'Download Image', photo_download_image_path(@photo), method: :get %></div>
+<div class="container"> 
+    <h1> Your photos </h1>
+        <% @photo.photos.each do |image| %>
+            <div class="row show_row">
+                <div class="col-7">
+                    <div class="show_image"><%= image_tag image.variant(resize: "600>", quality: 75).processed %></div>
+                    <div class="show_button">
+                            <%= button_to 'Download Image', photo_download_image_path(@photo), method: :get, class: "btn btn-primary btn-space" %>
+                            <%= button_to 'Edit', edit_photo_path(@photo), method: :get, class: "btn btn-primary btn-space"  %>
+                            <%= button_to 'Delete', @photo, method: :delete, class: "btn btn-primary btn-space"  %>
+                    </div>
 
-            <% @photo.permissions.each do |permission| %>
-                <p><%= link_to 'download permissions', rails_blob_path(permission, only_path: true) %></p>
-            <% end %>
+                    <% @photo.permissions.each do |permission| %>
+                        <ul class="show_list"><%= link_to 'Download Permission', rails_blob_path(permission, only_path: true) %></ul>
+                    <% end %>
+                </div>    
+                <div class="col-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">Shooting date: <%= @photo.shooting_date %></li>
+                        <li class="list-group-item">Photographer: <%= @photo.photographer %></li>
+                        <li class="list-group-item">Content: <%= @photo.content %></li>
+                        <li class="list-group-item">File name: <%= image.filename %></li>
+                        <li class="list-group-item">File type: <%= image.content_type %></li>
+                        <li class="list-group-item">Size: <%= (image.byte_size)/1000000.to_f %> MB</li>
+                        <li class="list-group-item">Uploaded: <%= @photo.created_at %></li>
+                        <li class="list-group-item">Downloaded: <%= @photo.download_date %></li>
+                        <li class="list-group-item">Delete Date: <%= @photo.delete_date %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end%>
+</div>
 
-        <p>Shooting date: <%= @photo.shooting_date %></p>
-        <p>Photographer: <%= @photo.photographer %></p>
-        <p>Content: <%= @photo.content %></p>
-        <p>File name: <%= image.filename %></p>
-        <p>File type: <%= image.content_type %></p>
-        <p>Size: <%= (image.byte_size)/1000000.to_f %> MB</p>
-        <p>Uploaded: <%= @photo.created_at %></p>
-        <p>Downloaded: <%= @photo.download_date %></p>
-        <p>Delete Date: <%= @photo.delete_date %></p>
-    <% end%>
 <% else %>
     "Sorry, too late!" 
 <% end %>

@@ -1,12 +1,36 @@
-<h1>Photos</h1>
-<%= form_tag "/", method: "get" do %>
-    <%= label_tag(:search, "Search") %>
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag("Search", name: nil) %>
-<% end %>
-<div class = "col-md-8 offset-2">
-    <% @photos.each do |image| %>
-        <p>Shooting date: <%= image.shooting_date %></p>
-        <p><small>Tags: <%= raw image.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ') %></small></p>
+        <%= form_tag "/", method: "get" do %>
+            <%= label_tag(:search, "Search") %>
+            <%= text_field_tag :search, params[:search] %>
+            <%= submit_tag("Search", name: nil) %>
+        <% end %>
+
+        <div class="container"> 
+            <h1>Photos</h1>
+                <div class="card-deck">
+                    <% @photos.each do |image_all| %>
+            
+                        <% image_all.photos.each do |image| %>
+
+                            <div class="col-4">
+                                <div class="card">  
+                                    <%= link_to (image_tag image.variant( combine_options: { gravity: 'Center', crop: '200x200+0+0' }, quality: 75).processed, class: "card-img-top"), photo_path(image_all) %>
+                                    <div class="card-body">
+                                        <p class="card-text">Shooting date: <%= image_all.shooting_date %></p>
+                                        <p><small>Tags: <%= raw image_all.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ') %></small></p>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                        <% end %>   
+                    
+                    <% end %>
+                </div>
+        </div>
+
+<% url = request.path_info %>
+    <% if url.include?('tags') %>
+        <%= button_to "Back to Overview", "/", method: :get %>
     <% end %>
-</div>
+
+ 
+   

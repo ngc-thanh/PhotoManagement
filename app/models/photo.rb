@@ -7,7 +7,7 @@ class Photo < ApplicationRecord
 
     def self.search(search, tag)
         @photos = Photo.all
-        @photos = @photos.where("photographer LIKE ? ", "%#{search}%") if search
+        @photos = @photos.where("photographer LIKE ? OR DATE(created_at) LIKE ?", "%#{search}%", "%#{search}%") if search
         @photos = @photos.tagged_with(tag) if tag
         @photos.includes(:tags)
     end
