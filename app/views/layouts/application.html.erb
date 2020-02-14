@@ -12,29 +12,39 @@
 
   <body>
 
-  <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-        <div class="collapse navbar-collapse"></div>  
-          <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                  Filter by Topics
+  <nav class="navbar navbar-expand-sm navbar navbar-dark bg-dark">
+        <div class="collapse navbar-collapse">
+            <div class="navbar-center">
+            <form class="form-inline">
+              <%= form_tag "/", method: "get", class: "form-control mr-sm-2" do %> 
+              <%= text_field_tag :search, params[:search], id: "searchfield" %>
+              <%= submit_tag("Search", name: nil, class: "btn btn-outline-light my-2 my-sm-0 btn-space") %>
+              <% end %>
+            </form> 
+            </div>
+          <div class="d-flex align-items-start">
+          <%= link_to "Home", "/", class: "btn btn-outline-light btn-space"%>
+           <%= link_to "Upload", new_photo_path, class: "btn btn-outline-light btn-space"%>
+            <li class="nav-item dropdown">
+                <a class="btn btn-outline-light dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                  Filter by Topic
                 </a>
                 <div class="dropdown-menu">
-                    <% Tag.all.each do |tag| %>
-                    <a class="dropdown-item"><%= link_to tag.name, "/tags/#{tag.name}" %></a>
-                    <% end %>
+                  <% Tag.all.each do |tag| %>
+                    <%= link_to tag.name, "/tags/#{tag.name}", class: "dropdown-item" %>
+                  <% end %>
                 </div>
               </li>
-
-
-
-
-        <div class="navbar-text float-right">
+    
+          </div>
+          </div> 
+        <div class="align-items-end navbar-link">
         <% if user_signed_in? %>
-          Logged in as <strong><%= current_user.email %></strong>
-          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+          Logged in as <strong ><%= current_user.email %></strong>  |  
+          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>  | 
           <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
         <% else %>
-          <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+          <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %>  | 
           <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
         <% end %>
         </div>

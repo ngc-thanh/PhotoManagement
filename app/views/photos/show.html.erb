@@ -1,8 +1,8 @@
 <% if @photo.download_date == nil || Date.current < @photo.download_date + 365.days %>
 
 <div class="container"> 
-    <h1> Your photos </h1>
         <% @photo.photos.each do |image| %>
+        <h1> <%= image.filename %> </h1>
             <div class="row show_row">
                 <div class="col-7">
                     <div class="show_image"><%= image_tag image.variant(resize: "600>", quality: 75).processed %></div>
@@ -10,6 +10,7 @@
                             <%= button_to 'Download Image', photo_download_image_path(@photo), method: :get, class: "btn btn-primary btn-space" %>
                             <%= button_to 'Edit', edit_photo_path(@photo), method: :get, class: "btn btn-primary btn-space"  %>
                             <%= button_to 'Delete', @photo, method: :delete, class: "btn btn-primary btn-space"  %>
+                            <%= button_to 'Back to Overview', "/", method: :get, class: "btn btn-primary btn-space"  %>
                     </div>
 
                     <% @photo.permissions.each do |permission| %>

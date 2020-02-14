@@ -5,15 +5,19 @@ class Photo < ApplicationRecord
     has_many :taggings
     has_many :tags, through: :taggings
 
-    def self.search(search, tag)
-        @photos = Photo.all
-        @photos = @photos.where("photographer LIKE ? OR DATE(created_at) LIKE ?", "%#{search}%", "%#{search}%") if search
-        @photos = @photos.tagged_with(tag) if tag
-        @photos.includes(:tags)
+    scope :with_tag, ->(tag) do
+        joins("inner join taggings on taggings.photo_id = photos.id inner join tags on tags.id = taggings.tag_id").
+        where("tags.name LIKE ?", "%#{tag}%")
     end
 
-    def self.tagged_with(name)
-        Tag.find_by!(name: name).photos
+    def self.search(search, tag)
+        @photos = Photo.all.includes(:tags)
+        if search
+            @photos = @photos.where("photographer LIKE ?", "%#{search}%").includes(:tags) + (@photos.with_tag(search).includes(:tags))
+        end
+
+        @photos = @photos.with_tag(tag).includes(:tags) if tag
+        @photos
     end
     
     def self.tag_counts
