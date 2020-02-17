@@ -4,16 +4,17 @@ class Photo < ApplicationRecord
     has_many_attached :permissions
     has_many :taggings
     has_many :tags, through: :taggings
+    belongs_to :photographer
 
     scope :with_tag, ->(tag) do
         joins("inner join taggings on taggings.photo_id = photos.id inner join tags on tags.id = taggings.tag_id").
-        where("tags.name LIKE ?", "%#{tag}%")
+        where("lower(tags.name) LIKE ?", "%#{tag.downcase}%")
     end
 
     def self.search(search, tag)
         @photos = Photo.all.includes(:tags)
         if search
-            @photos = @photos.where("photographer LIKE ?", "%#{search}%").includes(:tags) + (@photos.with_tag(search).includes(:tags))
+            @photos = @photos.where("lower(photographer) LIKE ?", "%#{search.downcase}%").includes(:tags) + (@photos.with_tag(search.downcase).includes(:tags))
         end
 
         @photos = @photos.with_tag(tag).includes(:tags) if tag

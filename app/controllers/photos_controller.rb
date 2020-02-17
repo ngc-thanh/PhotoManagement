@@ -1,6 +1,5 @@
 class PhotosController < ApplicationController
 
-    before_action :set_dropdown, only: [:show, :edit, :new] 
     before_action :set_active_storage_host
 
     def index
@@ -45,19 +44,6 @@ class PhotosController < ApplicationController
     end
 
     private
-    def set_dropdown
-        photo = Photo.all
-        @photographers = []
-        @contents = []
-        photo.each do |image|
-            unless image.photographer.to_s.empty?
-                @photographers << Array.new(2, image.photographer)
-            end
-            unless image.content.to_s.empty?
-                @contents << Array.new(2, image.content)
-            end
-        end
-    end
 
     def photo_params
 
