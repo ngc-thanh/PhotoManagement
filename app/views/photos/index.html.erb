@@ -7,9 +7,9 @@
             
                         <% image_all.photos.each do |image| %>
 
-                            <div class="col-4">
+                            <div class="col-4 d-flex align-items-stretch">
                                 <div class="card show_row">  
-                                    <%= link_to (image_tag image.variant( combine_options: { gravity: 'Center', crop: '200x200+0+0' }, quality: 75).processed, class: "card-img-top"), photo_path(image_all) %>
+                                    <%= link_to (image_tag image.variant(resize: "50%", quality: 75).processed, class: "card-img-top"), photo_path(image_all) %>
                                     <div class="card-body">
                                         <p class="card-text">Shooting date: <%= image_all.shooting_date %></p>
                                         <p class="card-text">Deletion date: <%= image_all.delete_date %></p>
@@ -22,6 +22,7 @@
                     
                     <% end %>
                 </div>
+            <%= @photos = Photo.search(params[:search], params[:tag]).to_a %>
             <div id="back_button_index">
                 <% url = request.path_info %>
                     <% if url.include?('tags') %>

@@ -11,12 +11,19 @@ class Photo < ApplicationRecord
         where("lower(tags.name) LIKE ?", "%#{tag.downcase}%")
     end
 
-    def self.search(search, tag)
-        @photos = Photo.all.includes(:tags)
-        if search
-            @photos = @photos.where("lower(photographer) LIKE ?", "%#{search.downcase}%").includes(:tags) + (@photos.with_tag(search.downcase).includes(:tags))
-        end
+    scope :with_photographer, ->(photographer) do
+        joins("inner join photographers on photographers.id= photos.photographer_id").
+        where("lower(photographers.name) LIKE ?", "%#{photographer.downcase}%")
+    end
 
+    def self.search(search, tag)
+        @photos = Photo.all
+        if search
+            if @photos.with_photographer(search).exists?
+                 @photos = @photos.with_photographer(search)
+            else @photos = @photos.with_tag(search)
+            end
+        end
         @photos = @photos.with_tag(tag).includes(:tags) if tag
         @photos
     end

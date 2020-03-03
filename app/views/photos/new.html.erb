@@ -17,7 +17,7 @@
         
         <div class="form-group row">
             <%= f.label :photographer, "Who shot the photo?", class:'control-label' %>
-            <%= f.select(:photographer, options_for_select(@photographers.uniq),{}, {class: "form-control"}) %>
+            <%= f.collection_select :photographer_id, Photographer.all.order(:name), :id, :name, include_blank: false %>
         </div>
 
         <div class="form-group row">

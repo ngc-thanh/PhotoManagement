@@ -3,10 +3,10 @@ class PhotosController < ApplicationController
     before_action :set_active_storage_host
 
     def index
-        @photos = Photo.search(params[:search], params[:tag])
+        @photos = Photo.with_attached_photos.search(params[:search], params[:tag]).includes(:tags)
     end
     
-    def show
+    def show    
         @photo = Photo.find(params[:id])
     end
 
@@ -47,7 +47,7 @@ class PhotosController < ApplicationController
 
     def photo_params
 
-        params.require(:photo).permit(:shooting_date, :content, :photographer, :search, :tag_list, :tag, { tag_ids: [] }, :tag_ids, permissions: [], photos: [])
+        params.require(:photo).permit(:shooting_date, :photographer_id, :search, :tag_list, :tag, { tag_ids: [] }, :tag_ids, permissions: [], photos: [])
 
     end
 
