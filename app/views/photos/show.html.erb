@@ -20,7 +20,7 @@
                 <div class="col-3">
                     <ul class="list-group">
                         <li class="list-group-item">Shooting date: <%= @photo.shooting_date %></li>
-                        <li class="list-group-item">Photographer: <%= @photo.photographer.name %></li>
+                        <li class="list-group-item">Photographer: <%= @photo.photographer.name if @photo.photographer %></li>
                         <li class="list-group-item">File name: <%= image.filename %></li>
                         <li class="list-group-item">File type: <%= image.content_type %></li>
                         <li class="list-group-item">Size: <%= (image.byte_size)/1000000.to_f %> MB</li>

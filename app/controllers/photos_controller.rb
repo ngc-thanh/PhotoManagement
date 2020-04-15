@@ -17,7 +17,6 @@ class PhotosController < ApplicationController
     def update
         @photo = Photo.find(params[:id])
         @photo.update(photo_params)
-
         redirect_to @photo
     end
 
@@ -31,6 +30,12 @@ class PhotosController < ApplicationController
         @photo = Photo.find(params[:photo_id]).photos.first
         redirect_to @photo.service_url
         Photo.find(params[:photo_id]).update(download_date: Date.current, delete_date: (Date.current + 1.year))
+    end
+
+    def delete_attachment
+        @photo = ActiveStorage::Attachment.find(params[:id])
+        @photo.purge.photos.first
+        redirect_to "/"
     end
 
     def new

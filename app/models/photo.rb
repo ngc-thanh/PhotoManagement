@@ -20,8 +20,10 @@ class Photo < ApplicationRecord
         @photos = Photo.all
         if search
             if @photos.with_photographer(search).exists?
-                 @photos = @photos.with_photographer(search)
-            else @photos = @photos.with_tag(search)
+                    @photos = @photos.with_photographer(search)
+            elsif @photos.with_tag(search).exists?
+                    @photos = @photos.with_tag(search)
+            else  @photos = @photos.where("cast(strftime('%Y', shooting_date) as int) = ?", "#{search}")                
             end
         end
         @photos = @photos.with_tag(tag).includes(:tags) if tag
